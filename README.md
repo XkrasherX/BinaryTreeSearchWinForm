@@ -131,7 +131,7 @@ The tree is **not self-balancing**, so its shape depends on insertion order. In 
    ```
 
 2. Open the solution (`.sln`) in **Visual Studio** on Windows.
-3. Make sure the project is configured for **C++/CLI and Windows Forms**.
+3. Make sure the project is configured for **C++/CLI and Windows Forms**. Also make sure you saved with encoding "Unicode (UTF-8 with signature) - Code page 65001.
 4. Build and run the application.
 5. Enter a sequence of unique characters, then use the buttons to explore the tree.
 
