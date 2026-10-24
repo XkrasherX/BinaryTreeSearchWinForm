@@ -127,7 +127,7 @@ The tree is **not self-balancing**, so its shape depends on insertion order. In 
 1. Clone your repository:
 
    ```bash
-   git clone https://github.com/USERNAME/REPOSITORY.git
+   git clone https://github.com/XkrasherX/BinaryTreeSearchWinForm.git
    ```
 
 2. Open the solution (`.sln`) in **Visual Studio** on Windows.
