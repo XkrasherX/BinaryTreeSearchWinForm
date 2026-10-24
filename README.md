@@ -35,7 +35,7 @@ Each character is converted to lowercase before insertion. Smaller characters ar
 The following example is built by inserting `m f t c h p w` in that order. The diagram shows the BST property: values smaller than a node go to the left, and values greater than a node go to the right.
 
 <p align="center">
-  <img src="assets/binary-search-tree.svg" width="850" alt="Binary search tree built from m f t c h p w"/>
+  <img src="binary-search-tree.svg" width="850" alt="Binary search tree built from m f t c h p w"/>
 </p>
 
 ---
@@ -47,7 +47,7 @@ Postorder traversal visits the **left subtree first**, then the **right subtree*
 `c h f p w t m`
 
 <p align="center">
-  <img src="assets/postorder-traversal.svg" width="850" alt="Postorder traversal, showing node visit order from 1 to 7"/>
+  <img src="postorder-traversal.svg" width="850" alt="Postorder traversal, showing node visit order from 1 to 7"/>
 </p>
 
 The `postorder()` method implements this order recursively:
