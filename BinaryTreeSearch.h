@@ -1,19 +1,12 @@
 #pragma once
 #include <iostream>
 
-class Node {
-
-public:
-	Node(char value) {
-		m_value = value;
-		m_left = nullptr;
-		m_right = nullptr;
-	}
-
+struct Node {
 	char m_value;
 	Node* m_left;
 	Node* m_right;
 };
+
 
 class BinaryTreeSearch {
 private:
@@ -27,7 +20,8 @@ public:
 	{
 		if (subtree == nullptr)
 		{
-			subtree = new Node(value);
+			subtree = new Node();
+			subtree->m_value = value;
 		}
 		else if (value < subtree->m_value)
 		{
@@ -47,5 +41,15 @@ public:
 		else return findData(tree->m_right, value);
 	}
 
+	//зворотний обхід
+	std::string postorderBTS(Node *curNode) {
+		std::string result;
+
+
+
+
+
+		return result;
+	}
 	
 };
