@@ -1,5 +1,7 @@
-#pragma once
+﻿#pragma once
 
+
+#include "BinaryTreeSearch.h"
 namespace lab7 {
 
 	using namespace System;
@@ -18,22 +20,21 @@ namespace lab7 {
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			tree = new BinaryTreeSearch();
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
+
 		~MyForm()
 		{
 			if (components)
 			{
 				delete components;
 			}
+			delete tree;
+			tree = nullptr;
 		}
+	private: BinaryTreeSearch* tree;
 	private: System::Windows::Forms::Label^ EnterSequenceLabel;
 	protected:
 	private: System::Windows::Forms::TextBox^ EnterSequenceTextBox;
@@ -54,7 +55,7 @@ namespace lab7 {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -127,6 +128,7 @@ namespace lab7 {
 			this->PreorderBTSButton->TabIndex = 4;
 			this->PreorderBTSButton->Text = L"Зворотний обхід";
 			this->PreorderBTSButton->UseVisualStyleBackColor = true;
+			this->PreorderBTSButton->Click += gcnew System::EventHandler(this, &MyForm::PreorderBTSButton_Click);
 			// 
 			// FindElementBTSButton
 			// 
@@ -138,6 +140,7 @@ namespace lab7 {
 			this->FindElementBTSButton->TabIndex = 5;
 			this->FindElementBTSButton->Text = L"Знайди елемент в дереві";
 			this->FindElementBTSButton->UseVisualStyleBackColor = true;
+			this->FindElementBTSButton->Click += gcnew System::EventHandler(this, &MyForm::FindElementBTSButton_Click);
 			// 
 			// FindParrentDescendantButton
 			// 
@@ -147,6 +150,7 @@ namespace lab7 {
 			this->FindParrentDescendantButton->TabIndex = 6;
 			this->FindParrentDescendantButton->Text = L"Знайти батька і нащадка елемента";
 			this->FindParrentDescendantButton->UseVisualStyleBackColor = true;
+			this->FindParrentDescendantButton->Click += gcnew System::EventHandler(this, &MyForm::FindParrentDescendantButton_Click);
 			// 
 			// FindSecondConsonantButton
 			// 
@@ -156,6 +160,7 @@ namespace lab7 {
 			this->FindSecondConsonantButton->TabIndex = 7;
 			this->FindSecondConsonantButton->Text = L"Знайти 2 приголосну";
 			this->FindSecondConsonantButton->UseVisualStyleBackColor = true;
+			this->FindSecondConsonantButton->Click += gcnew System::EventHandler(this, &MyForm::FindSecondConsonantButton_Click);
 			// 
 			// CreateTreeButton
 			// 
@@ -165,6 +170,7 @@ namespace lab7 {
 			this->CreateTreeButton->TabIndex = 8;
 			this->CreateTreeButton->Text = L"Створити дерево";
 			this->CreateTreeButton->UseVisualStyleBackColor = true;
+			this->CreateTreeButton->Click += gcnew System::EventHandler(this, &MyForm::CreateTreeButton_Click);
 			// 
 			// MyForm
 			// 
@@ -187,7 +193,110 @@ namespace lab7 {
 
 		}
 #pragma endregion
+		//оновити інформацію про дерево
+	private: void refreshInfoTextBox() {
+		std::string information = tree->postorder();
+		InformationTextBox->Text = "Дерево при зворотному обході: " + Environment::NewLine + gcnew String(information.c_str());
+	}
 
+	private: System::Void CreateTreeButton_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ input = EnterSequenceTextBox->Text->Trim();
 
+		if (input->Length == 0)
+		{
+			MessageBox::Show("Введіть символ!");
+			return;
+		}
+
+		array<String^>^ parts = input->Split(gcnew array<Char>{' '}, StringSplitOptions::RemoveEmptyEntries);
+
+		array<char>^ symbols = gcnew array<char>(parts->Length);
+
+		for (int i = 0; i < parts->Length; i++)
+		{
+			//кожна частина має бути одним символом
+			if (parts[i]->Length != 1 || parts[i][0] > 127)
+			{
+				MessageBox::Show("Неправильний символ: " + parts[i]);
+				return;
+			}
+
+			//нижній регістр
+			symbols[i] = (char)Char::ToLower(parts[i][0]);
+		}
+
+		//перевірка на повтори у першому записі
+		for (int i = 0; i < symbols->Length; i++)
+		{
+			for (int j = i + 1; j < symbols->Length; j++)
+			{
+				if (symbols[i] == symbols[j])
+				{
+					MessageBox::Show("Символ: " + Char::ToString((wchar_t)symbols[i]) + " вже є у записі!");
+					return;
+				}
+			}
+		}
+
+		//перевірка на повтори у дереві
+		for (int i = 0; i < symbols->Length; i++)
+		{
+			if (tree->findData(symbols[i]))
+			{
+				MessageBox::Show("Символ: " + Char::ToString((wchar_t)symbols[i]) + " вже є у дереві!");
+				return;
+			}
+		}
+
+		//усе перевірено, додаємо
+		for (int i = 0; i < symbols->Length; i++)
+		{
+			tree->insertData(symbols[i]);
+		}
+
+		refreshInfoTextBox();
+	}
+	private: System::Void PreorderBTSButton_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		InformationTextBox->Clear();
+		InformationTextBox->Text = "Зворотний обхід дерева: " +
+			Environment::NewLine +
+			gcnew String(tree->postorder().c_str());
+
+	}
+	private: System::Void FindParrentDescendantButton_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		InformationTextBox->Clear();
+		char c = Convert::ToChar(EnterSequenceTextBox->Text);
+		InformationTextBox->Text = "Вивід батька і нащадків(у прямому порядку) для символа " +
+			Char::ToString((wchar_t)c) + ":" +
+			Environment::NewLine +
+			gcnew String(tree->parentAndDescendants(c).c_str());
+
+	}
+	private: System::Void FindSecondConsonantButton_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		InformationTextBox->Clear();
+		if (tree->secondConsonantLetter() == '\n') InformationTextBox->Text = "У дереві менше 2 приголосних";
+		
+		InformationTextBox->Text = "Друга приголосна в дереві(за зворотним обходом): " +
+			Environment::NewLine +
+			Char::ToString((wchar_t)tree->secondConsonantLetter());
+
+	}
+	private: System::Void FindElementBTSButton_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		InformationTextBox->Clear();
+		char c = Convert::ToChar(EnterSequenceTextBox->Text);
+
+		if (!c) return;
+		if (tree->findData(c)) {
+			InformationTextBox->Text = "Символ " + Char::ToString((wchar_t)c) + " є у дереві";
+		}
+		else {
+			InformationTextBox->Text = "Символ " + Char::ToString((wchar_t)c) + " не є у дереві";
+		}
+
+	}
 	};
 }
