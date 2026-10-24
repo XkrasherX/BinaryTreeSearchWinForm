@@ -22,6 +22,7 @@ private:
 public:
 	BinaryTreeSearch() { m_root = nullptr; }
 
+	//вставити значення у дерево
 	void insertData(char value, Node*& subtree)
 	{
 		if (subtree == nullptr)
@@ -37,4 +38,14 @@ public:
 			insertData(value, subtree->m_right);
 		}
 	}
+
+	//пошук значення в дереві
+	bool findData(Node* tree, char value) {
+		if (tree == nullptr) return false;
+		else if (tree->m_value == value) return true;
+		else if (tree->m_value < value) return findData(tree->m_left, value);
+		else return findData(tree->m_right, value);
+	}
+
+	
 };
