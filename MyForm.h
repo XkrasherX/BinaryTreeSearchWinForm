@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 #include "BinaryTreeSearch.h"
 namespace lab7 {
 
@@ -193,7 +192,7 @@ namespace lab7 {
 
 		}
 #pragma endregion
-		//оновити інформацію про дерево
+	//оновити інформацію про дерево
 	private: void refreshInfoTextBox() {
 		char root = tree->getRootValue();
 		String^ left = gcnew String(tree->leftSubtree().c_str());
@@ -208,6 +207,7 @@ namespace lab7 {
 			"Праве піддерево(у зворотному порядку): " + right;
 	}
 
+	//кнопка для створення дерева
 	private: System::Void CreateTreeButton_Click(System::Object^ sender, System::EventArgs^ e) {
 		String^ input = EnterSequenceTextBox->Text->Trim();
 
@@ -264,7 +264,10 @@ namespace lab7 {
 		}
 
 		refreshInfoTextBox();
+		EnterSequenceTextBox->Clear();
 	}
+
+	//кнопка для зворотного обходу дерева
 	private: System::Void PreorderBTSButton_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		InformationTextBox->Clear();
@@ -273,6 +276,8 @@ namespace lab7 {
 			gcnew String(tree->postorder().c_str());
 
 	}
+
+	//кнопка для знаходження батька і нащадків елемента(елемент вписати в текстове поле)
 	private: System::Void FindParrentDescendantButton_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		InformationTextBox->Clear();
@@ -283,6 +288,8 @@ namespace lab7 {
 			gcnew String(tree->parentAndDescendants(c).c_str());
 
 	}
+
+	//кнопка для знаходження другої приголної
 	private: System::Void FindSecondConsonantButton_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		InformationTextBox->Clear();
@@ -293,6 +300,8 @@ namespace lab7 {
 			Char::ToString((wchar_t)tree->secondConsonantLetter());
 
 	}
+
+	//кнопка для перевірки чи є елемент в дереві(елемент вказати в текстбоксі)
 	private: System::Void FindElementBTSButton_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		InformationTextBox->Clear();
