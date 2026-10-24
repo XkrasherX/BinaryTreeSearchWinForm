@@ -6,8 +6,7 @@
 const char LOWER_CASE[] = { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z', '\0' };
 const int SIZE_LOWER_CASE = sizeof(LOWER_CASE) / sizeof(LOWER_CASE[0]);
 
-//const char UPPER_CASE[] = { 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Z', '\0' };
-
+//структура вершини
 struct Node {
 	char m_value;
 	bool is_visited;
@@ -15,7 +14,7 @@ struct Node {
 	Node* m_right;
 };
 
-
+//клас для бінарного дерева пошуку
 class BinaryTreeSearch {
 private:
 	Node* m_root;
@@ -23,20 +22,26 @@ private:
 public:
 	BinaryTreeSearch() { m_root = nullptr; }
 
-	//вставити значення у дерево
-	void insertData(char value,struct Node*& subtree)
+	//функція для створення дерева
+	void fillTree(char& value,struct Node*& subtree)
 	{
 		if (subtree == nullptr)
 		{
 			subtree = new Node();
 			subtree->m_value = std::tolower(value);
+			subtree->is_visited = false;
+			subtree->m_left = nullptr;
+			subtree->m_right = nullptr;
 		}
-		else if (value < subtree->m_value) insertData(value, subtree->m_left);
-		else insertData(value, subtree->m_right);
+		else if (value < subtree->m_value) fillTree(value, subtree->m_left);
+		else fillTree(value, subtree->m_right);
 	}
 
+	//функція для додавання елемента до дерева
+	void insertData(char& value) { fillTree(value, m_root); }
+
 	//пошук значення в дереві
-	bool findData(struct Node* tree, char value) {
+	bool findData(struct Node* tree, char& value) {
 		if (tree == nullptr) return false;
 		else if (tree->m_value == value) return true;
 		else if (tree->m_value < value) return findData(tree->m_left, value);
@@ -70,7 +75,7 @@ public:
 	}
 	
 	//функція яка перевіряє чи char приголосний
-	bool isConsonant(char c) {
+	bool isConsonant(char& c) {
 		for (int i = 0; i < SIZE_LOWER_CASE; i++) {
 			if (c == LOWER_CASE[i]) return true;
 			else continue;
@@ -96,5 +101,75 @@ public:
 		return secondConsonantLetter(head->m_right);
 	}
 
+	//пошук вершини
+	struct Node* findNode(struct Node* head, char& value) const
+	{
+		if (head == nullptr) return nullptr;
+		if (head->m_value == value) return head;
+		if (value < head->m_value) return findNode(head->m_left, value);
+		return findNode(head->m_right, value);
+	}
 
+	//пошук батьківської вершини
+	Node* findParentNode(char& value) const
+	{
+		Node* parent = nullptr;
+		Node* current = m_root;
+
+		while (current != nullptr && current->m_value != value)
+		{
+			parent = current;
+
+			if (value < current->m_value)
+				current = current->m_left;
+			else
+				current = current->m_right;
+		}
+
+		if (current == nullptr)
+			return nullptr;
+
+		return parent;
+	}
+
+	//запис піддерева у прямому порядку
+	void wirteNodePreorder(Node* node, std::string& result) const
+	{
+		if (node == nullptr)
+			return;
+
+		result += node->m_value;
+		result += ' ';
+
+		wirteNodePreorder(node->m_left, result);
+		wirteNodePreorder(node->m_right, result);
+	}
+
+	//функція для виводу батька і нащадків для вибраної вершини(за значенням value)
+	std::string parentAndDescendants(char value) const
+	{
+		value = std::tolower(value);
+		Node* target = findNode(m_root, value);
+		Node* parent = findParentNode(value);
+
+		if (target == nullptr) return "head not found";
+
+
+		std::string result = "Parent: ";
+
+		if (parent != nullptr) result += parent->m_value;
+		else result += " root";
+		
+		result += "\nDescendants: ";
+
+		std::string descendants = "";
+
+		wirteNodePreorder(target->m_left, descendants);
+		wirteNodePreorder(target->m_right, descendants);
+
+		if (descendants.empty()) result += "no descendants";
+		else result += descendants;
+
+		return result;
+	}
 };
