@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" role="img" aria-labelledby="title desc">
+  <title id="title">Binary Search Tree example</title>
+  <desc id="desc">A binary search tree built by inserting m, f, t, c, h, p, w. Every left child is smaller than its parent and every right child is greater.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#101b32"/><stop offset="1" stop-color="#172b45"/></linearGradient>
+    <linearGradient id="rootFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#70f0c0"/><stop offset="1" stop-color="#28bda7"/></linearGradient>
+    <linearGradient id="nodeFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#263f60"/><stop offset="1" stop-color="#1b304d"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#020617" flood-opacity="0.45"/></filter>
+  </defs>
+  <rect width="1000" height="560" rx="26" fill="url(#bg)"/>
+  <circle cx="70" cy="60" r="110" fill="#2dd4bf" opacity="0.05"/><circle cx="945" cy="485" r="160" fill="#60a5fa" opacity="0.05"/>
+  <text x="48" y="55" fill="#f0fdfa" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700">Binary Search Tree</text>
+  <text x="49" y="84" fill="#9fb4cc" font-family="Segoe UI, Arial, sans-serif" font-size="15">Example insertion order: m  f  t  c  h  p  w</text>
+  <rect x="684" y="34" width="266" height="44" rx="22" fill="#203953" stroke="#3d5b76"/>
+  <text x="817" y="61" fill="#baf7e6" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">LEFT &lt; NODE &lt; RIGHT</text>
+  <g stroke="#6687a9" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M500 148 L300 232"/><path d="M500 148 L700 232"/>
+    <path d="M300 282 L190 367"/><path d="M300 282 L410 367"/>
+    <path d="M700 282 L590 367"/><path d="M700 282 L810 367"/>
+  </g>
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#9fb4cc">
+    <text x="374" y="185">LEFT</text><text x="608" y="185">RIGHT</text>
+  </g>
+  <g filter="url(#shadow)">
+    <circle cx="500" cy="123" r="38" fill="url(#rootFill)" stroke="#c3fff0" stroke-width="2.5"/><circle cx="300" cy="257" r="34" fill="url(#nodeFill)" stroke="#73a8d8" stroke-width="2"/><circle cx="700" cy="257" r="34" fill="url(#nodeFill)" stroke="#73a8d8" stroke-width="2"/>
+    <circle cx="190" cy="392" r="31" fill="url(#nodeFill)" stroke="#73a8d8" stroke-width="2"/><circle cx="410" cy="392" r="31" fill="url(#nodeFill)" stroke="#73a8d8" stroke-width="2"/><circle cx="590" cy="392" r="31" fill="url(#nodeFill)" stroke="#73a8d8" stroke-width="2"/><circle cx="810" cy="392" r="31" fill="url(#nodeFill)" stroke="#73a8d8" stroke-width="2"/>
+  </g>
+  <g text-anchor="middle" dominant-baseline="central" font-family="Consolas, monospace" font-size="25" font-weight="700">
+    <text x="500" y="124" fill="#082c2c">m</text><text x="300" y="258" fill="#e5f2ff">f</text><text x="700" y="258" fill="#e5f2ff">t</text><text x="190" y="393" fill="#e5f2ff">c</text><text x="410" y="393" fill="#e5f2ff">h</text><text x="590" y="393" fill="#e5f2ff">p</text><text x="810" y="393" fill="#e5f2ff">w</text>
+  </g>
+  <g fill="#9fb4cc" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13">
+    <text x="190" y="442">leaf</text><text x="410" y="442">leaf</text><text x="590" y="442">leaf</text><text x="810" y="442">leaf</text>
+  </g>
+  <rect x="48" y="486" width="904" height="42" rx="12" fill="#12243b" stroke="#29445f"/>
+  <text x="500" y="512" text-anchor="middle" fill="#bed0e3" font-family="Segoe UI, Arial, sans-serif" font-size="15">Smaller characters go left · Greater characters go right · Equal values are not inserted</text>
+</svg>
