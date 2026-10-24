@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <iostream>
 #include <string>
 #include <cctype>
 
@@ -9,7 +8,6 @@ const int SIZE_LOWER_CASE = sizeof(LOWER_CASE) / sizeof(LOWER_CASE[0]);
 //структура вершини
 struct Node {
 	char m_value;
-	bool is_visited;
 	Node* m_left;
 	Node* m_right;
 };
@@ -19,25 +17,6 @@ class BinaryTreeSearch {
 private:
 	Node* m_root;
 
-	void findSecond(Node* n, int& count, char& res) {
-		if (!n || res != '\0') return;
-		findSecond(n->m_left, count, res);
-		findSecond(n->m_right, count, res);
-		if (res == '\0' && isConsonant(n->m_value) && ++count == 2)
-			res = n->m_value;
-	}
-
-	void postorderWrite(Node* n, std::string& result) {
-		if (!n) return;
-		postorderWrite(n->m_left, result);
-		postorderWrite(n->m_right, result);
-		result += n->m_value;
-		result += ' ';
-	}
-
-public:
-	BinaryTreeSearch() { m_root = nullptr; }
-
 	//функція для створення дерева
 	void fillTree(char value, struct Node*& subtree)
 	{
@@ -45,7 +24,6 @@ public:
 		{
 			subtree = new Node();
 			subtree->m_value = value;
-			subtree->is_visited = false;
 			subtree->m_left = nullptr;
 			subtree->m_right = nullptr;
 		}
@@ -53,42 +31,12 @@ public:
 		else if (value > subtree->m_value) fillTree(value, subtree->m_right);
 	}
 
-	//функція для додавання елемента до дерева
-	void insertData(char value) { 
-		value = std::tolower(value);
-		fillTree(value, m_root); 
-	}
-
-	//пошук значення в дереві
-	bool findData(char value) {
-		value = std::tolower(value);
-		return findNode(m_root, value) != nullptr;
-	}
-
-	//зворотній обхід дерева
-	std::string postorder()
-	{
-		std::string result = "";
-		postorderWrite(m_root, result);
-		return result;
-		
-	}
-
 	//функція яка перевіряє чи char приголосний
 	bool isConsonant(char c) {
-		for (int i = 0; i < SIZE_LOWER_CASE; i++) {
+		for (int i = 0; i < SIZE_LOWER_CASE - 1; i++) {
 			if (c == LOWER_CASE[i]) return true;
-			else continue;
 		}
 		return false;
-	}
-
-	//пошук другої приголосної літери
-	char secondConsonantLetter() {
-		int count = 0;
-		char res = '\0';
-		findSecond(m_root, count, res);
-		return res; 
 	}
 
 	//пошук вершини
@@ -122,6 +70,22 @@ public:
 		return parent;
 	}
 
+	void findSecond(Node* n, int& count, char& res) {
+		if (!n || res != '\0') return;
+		findSecond(n->m_left, count, res);
+		findSecond(n->m_right, count, res);
+		if (res == '\0' && isConsonant(n->m_value) && ++count == 2)
+			res = n->m_value;
+	}
+
+	void postorderWrite(Node* n, std::string& result) {
+		if (!n) return;
+		postorderWrite(n->m_left, result);
+		postorderWrite(n->m_right, result);
+		result += n->m_value;
+		result += ' ';
+	}
+
 	//запис піддерева у прямому порядку
 	void wirteNodePreorder(Node* node, std::string& result)
 	{
@@ -133,6 +97,38 @@ public:
 
 		wirteNodePreorder(node->m_left, result);
 		wirteNodePreorder(node->m_right, result);
+	}
+
+public:
+	BinaryTreeSearch() { m_root = nullptr; }
+
+	//функція для додавання елемента до дерева
+	void insertData(char value) { 
+		value = std::tolower(value);
+		fillTree(value, m_root); 
+	}
+
+	//пошук значення в дереві
+	bool findData(char value) {
+		value = std::tolower(value);
+		return findNode(m_root, value) != nullptr;
+	}
+
+	//зворотній обхід дерева
+	std::string postorder()
+	{
+		std::string result = "";
+		postorderWrite(m_root, result);
+		return result;
+		
+	}
+	
+	//пошук другої приголосної літери
+	char secondConsonantLetter() {
+		int count = 0;
+		char res = '\0';
+		findSecond(m_root, count, res);
+		return res; 
 	}
 
 	//функція для виводу батька і нащадків для вибраної вершини(за значенням value)
@@ -160,6 +156,26 @@ public:
 		if (descendants.empty()) result += "немає нащадків";
 		else result += descendants;
 
+		return result;
+	}
+
+	//значення кореня ('\0', якщо дерево порожнє)
+	char getRootValue() {
+		if (m_root == nullptr) return '\0';
+		return m_root->m_value;
+	}
+
+	//ліве піддерево кореня у зворотному порядку (порожній рядок, якщо його немає)
+	std::string leftSubtree() {
+		std::string result = "";
+		if (m_root != nullptr) postorderWrite(m_root->m_left, result);
+		return result;
+	}
+
+	//праве піддерево кореня у зворотному порядку
+	std::string rightSubtree() {
+		std::string result = "";
+		if (m_root != nullptr) postorderWrite(m_root->m_right, result);
 		return result;
 	}
 };

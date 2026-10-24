@@ -195,8 +195,17 @@ namespace lab7 {
 #pragma endregion
 		//оновити інформацію про дерево
 	private: void refreshInfoTextBox() {
-		std::string information = tree->postorder();
-		InformationTextBox->Text = "Дерево при зворотному обході: " + Environment::NewLine + gcnew String(information.c_str());
+		char root = tree->getRootValue();
+		String^ left = gcnew String(tree->leftSubtree().c_str());
+		String^ right = gcnew String(tree->rightSubtree().c_str());
+
+		if (left->Length == 0)  left = "немає";
+		if (right->Length == 0) right = "немає";
+
+		InformationTextBox->Text =
+			"Корінь дерева: " + Char::ToString((wchar_t)root) + Environment::NewLine +
+			"Ліве піддерево(у зворотному порядку): " + left + Environment::NewLine +
+			"Праве піддерево(у зворотному порядку): " + right;
 	}
 
 	private: System::Void CreateTreeButton_Click(System::Object^ sender, System::EventArgs^ e) {
